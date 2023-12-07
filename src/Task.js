@@ -67,7 +67,8 @@ function Task() {
         />
         <button onClick={() => checkGender()}>Add</button>
       </div>
-      {sgender ? (
+      if(sgender == null)
+      {
         <ul>
           {sgender.map((sg, index) => (
             <div key={index}>
@@ -80,7 +81,9 @@ function Task() {
             </div>
           ))}
         </ul>
-      ) : sort && sort.length > 0 ? (
+      }
+      else if (sort)
+      {
         <ul>
           {sort.map((sorts, index) => (
             <div key={index}>
@@ -93,7 +96,9 @@ function Task() {
             </div>
           ))}
         </ul>
-      ) : items && items.length > 0 ? (
+      }
+      else if (items)
+      {
         <ul>
           {items.map((item, index) => (
             <div key={index}>
@@ -106,9 +111,8 @@ function Task() {
             </div>
           ))}
         </ul>
-      ) : (
-        <p>No data found</p>
-      )}
+      }{" "}
+      else {<p>No data found</p>}
     </div>
   );
 }
