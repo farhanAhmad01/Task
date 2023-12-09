@@ -7,8 +7,8 @@ function App() {
   return (
     <div className="App">
       <h1>Api Fetchin Data</h1>
-      {/* <Api/> */}
-      <Task/>
+      <Api/>
+      {/* <Task/> */}
     </div>
   );
 }
