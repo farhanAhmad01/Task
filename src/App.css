@@ -37,6 +37,10 @@
   }
 }
 
-.card{
+.card1{
   border: 10px solid black;
+}
+
+.card2{
+  border: 10px solid rgb(179, 22, 22);
 }

@@ -1,51 +1,62 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
+import React, { useState, useEffect } from 'react';
 import "./api.css";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
 
-
-function Api() {
-  let [item, setitem] = useState(null);
-  console.log(item);
+const App = () => {
+  const [data, setData] = useState([]);
+  const [maleUsers, setMaleUsers] = useState([]);
+  const [femaleUsers, setFemaleUsers] = useState([]);
 
   useEffect(() => {
-    let fetch = async () => {
+    const fetchData = async () => {
       try {
-        await axios
-          .get("https://randomuser.me/api/?results=100")
-          .then((take) => setitem(take.data.results));
+        const response = await fetch('https://randomuser.me/api/?results=100');
+        const jsonData = await response.json();
+        setData(jsonData.results);
       } catch (error) {
-        console.log("error is", error);
+        console.error('Error fetching data:', error);
       }
     };
-    // console.log(item)
-    fetch();
-    // console.log(item)
+
+    fetchData();
   }, []);
 
+  useEffect(() => {
+    const maleUsersArray = data.filter(user => user.gender === 'male');
+    const femaleUsersArray = data.filter(user => user.gender === 'female');
+    
+    setMaleUsers(maleUsersArray);
+    setFemaleUsers(femaleUsersArray);
+  }, [data]);
+
   return (
-    <div>
-      {(item)?
-        <ul>
-          {item.map((items, index) => (
-            <div id="card" key={index}>
-              <img src={items.picture.large} alt="Image not found" />
-              <p>
-                Name: {items.name.first}
-                {items.name.last}
-              </p>
-              <p>Email: {items.email}</p>
-              <p>Country: {items.location.country}</p>
+    <div className="App">
+      <h1>User Cards</h1>
+      <div className="cards">
+        <div className="male-cards">
+          <h2>Male Users</h2>
+          {maleUsers.map((user, index) => (
+            <div className="card" key={index}>
+              <img src={user.picture.large} alt={user.name.first} />
+              <h3>{user.name.first} {user.name.last}</h3>
+              <p>Email: {user.email}</p>
+              <p>Gender: {user.gender}</p>
             </div>
           ))}
-        </ul>
-         :<p>Data is loading</p>
-         }
+        </div>
+        <div className="female-cards">
+          <h2>Female Users</h2>
+          {femaleUsers.map((user, index) => (
+            <div className="card" key={index}>
+              <img src={user.picture.large} alt={user.name.first} />
+              <h3>{user.name.first} {user.name.last}</h3>
+              <p>Email: {user.email}</p>
+              <p>Gender: {user.gender}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
-}
+};
 
-export default Api;
-
-
-
+export default App;
